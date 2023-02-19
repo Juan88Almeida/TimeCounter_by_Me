@@ -1,2 +1,2 @@
-# TimeCounter_by_Me
+# TimeCounter - Executive
 O Time Counter
