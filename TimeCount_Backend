@@ -1,0 +1,82 @@
+members = {
+    "1": ["João", 0, "Marketing"],
+    "2": ["Caio", 0, "Comercial"],
+    "3": ["Gabriel", 0, "Jurídico"]
+}
+
+print("Olá Membro Executive! Seja bem-vindo ao Time Count, seu contador de horas semanal")
+print()
+
+print(f"Os membros cadastrados para registro de horas são:")
+for old_member, old_elements in members.items():
+    print(old_elements[0])
+    
+print()
+more_members = "S"
+while True:
+    more_members = input(f"Deseja inserir mais algum membro para registro das horas?\nDigite 'S' para sim ou 'N' para não\n").upper()
+    
+    if more_members == "S":
+        new_member = input("Digite o nome do membro: ")
+        dept_member = input(f"Qual departamento {new_member} trabalha? ") 
+        members[len(members) + 1] = [new_member, 0, dept_member]
+        print()
+    else:
+        print()
+        break
+
+while True:
+    print(f"Relembrando, os membros cadastrados para registro de horas são:")
+    for member, new_elements in members.items():
+        print(f"{member} - {new_elements[0]} com {new_elements[1]} horas registradas")
+    
+    print()
+    count_time = input("Para qual deles você deseja acrescentar horas? ('Digite o número referente ao membro')\n ")
+
+    for member, elements in members.items():
+        if count_time == member:
+            sum_hours = 0
+            sum_min = 0
+
+            while True:
+                time = input("Deseja acrescentar quanto tempo?\nSiga o modelo 'Horas:Minutos' para registro e digite 0 para finalizar a contagem\n")
+
+                if time == "0" or time == "0:00":
+                    member = count_time
+                    total_hours = str(sum_hours) + ":" + str(sum_min)
+                    members[count_time][0] = elements[0]
+                    members[count_time][1] = total_hours
+                    break
+                else:
+                    hours, minutes = time.split(":")
+                    hours, minutes = int(hours), int(minutes)
+
+                    sum_hours += hours
+                    sum_min += minutes
+                    if sum_min >= 60:
+                        sum_hours += 1
+                        sum_min -= 60
+
+                    if sum_hours >= 12 and sum_min > 0:
+                        print(f"Meta semanal batida")
+                    elif sum_hours == 12:
+                        print(f"Meta semanal cumprida")
+                    elif sum_hours >= 11:
+                        print(f"Faltam {60 - sum_min} minutos para cobrir a meta semanal")
+                    elif sum_min == 0:
+                        print(f"Faltam {12 - sum_hours} horas para cobrir a meta semanal")
+                    else:
+                        print(f"Faltam {11 - sum_hours} horas e {60 - sum_min} minutos para cobrir a meta semanal")
+                    print()
+
+            print()
+            print(f"⏰ O total de horas acumuladas pelo {elements[0]} nessa semana foi {sum_hours} horas e {sum_min} minutos")
+            
+    print()
+    more_count = input(f"Deseja acrescentar horas para mais algum membro?\nDigite 'S' para sim ou 'N' para não\n").upper()
+    print()
+    if more_count == "N":
+        print("RELATÓRIO FINAL DOS MEMBROS EXECUTIVE: ")
+        for member, elements in members.items():
+            print(f"{member} - {elements[0]} com {elements[1]} horas registradas e {elements[3]} pontos acumulados")
+        break
